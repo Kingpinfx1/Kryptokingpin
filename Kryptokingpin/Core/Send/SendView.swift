@@ -10,6 +10,7 @@ struct SendView: View {
     @State private var showingTransactionReceipt = false
     @State private var currentTransaction: TransactionReceiptView.Transaction?
     @FocusState private var focusedField: Field?
+    @EnvironmentObject var viewModel: AuthViewModel
     
     enum Field {
         case recipient, amount
@@ -54,62 +55,65 @@ struct SendView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Color.theme.background
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        focusedField = nil
-                    }
-                
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Crypto Selection
-                        cryptoSelectionSection
-                        
-                        // Balance Card
-                        balanceCard
-                        
-                        // Send Form
-                        sendForm
-                    }
-                    .padding()
-                }
-            }
-            .navigationTitle("Send")
-            .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Done") {
-                        focusedField = nil
+            
+                ZStack {
+                    Color.theme.background
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            focusedField = nil
+                        }
+                    
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // Crypto Selection
+                            cryptoSelectionSection
+                            
+                            // Balance Card
+                            balanceCard
+                            
+                            // Send Form
+                            sendForm
+                        }
+                        .padding()
                     }
                 }
-            }
-            .alert("Error", isPresented: $showingError) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text(errorMessage)
-            }
-            .alert("Confirm Transaction", isPresented: $showingConfirmation) {
-                Button("Cancel", role: .cancel) { }
-                Button("Send", role: .none) {
-                    handleSendTransaction()
+                .navigationTitle("Send")
+                .toolbar {
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button("Done") {
+                            focusedField = nil
+                        }
+                    }
                 }
-            } message: {
-                VStack {
-                    Text("Are you sure you want to send:")
-                    Text("\(amount) \(selectedCrypto.symbol)")
-                        .fontWeight(.bold)
-                    Text("to address:")
-                    Text(recipientAddress)
-                        .font(.system(.body, design: .monospaced))
-                        .lineLimit(1)
+                .alert("Error", isPresented: $showingError) {
+                    Button("OK", role: .cancel) { }
+                } message: {
+                    Text(errorMessage)
                 }
-            }
-            .sheet(isPresented: $showingTransactionReceipt) {
-                if let transaction = currentTransaction {
-                    TransactionReceiptView(transaction: transaction)
+                .alert("Confirm Transaction", isPresented: $showingConfirmation) {
+                    Button("Cancel", role: .cancel) { }
+                    Button("Send", role: .none) {
+                        handleSendTransaction()
+                    }
+                } message: {
+                    VStack {
+                        Text("Are you sure you want to send:")
+                        Text("\(amount) \(selectedCrypto.symbol)")
+                            .fontWeight(.bold)
+                        Text("to address:")
+                        Text(recipientAddress)
+                            .font(.system(.body, design: .monospaced))
+                            .lineLimit(1)
+                    }
                 }
-            }
+                .sheet(isPresented: $showingTransactionReceipt) {
+                    if let transaction = currentTransaction {
+                        TransactionReceiptView(transaction: transaction)
+                    }
+                }
+            
+            
         }
     }
     
@@ -170,20 +174,21 @@ struct SendView: View {
             }
             
             HStack(alignment: .bottom, spacing: 8) {
-                Text("\(walletBalances[selectedCrypto]?.balance ?? 0, specifier: "%.4f")")
+//                Text("\(walletBalances[selectedCrypto]?.balance ?? 0, specifier: "%.4f")")
+                Text("$\(viewModel.currentUser?.balance ?? 0.0, specifier: "%.2f")")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(Color.theme.accent)
-                
-                Text(selectedCrypto.symbol)
-                    .font(.title3)
-                    .foregroundColor(Color.theme.secondaryText)
+//                
+//                Text(selectedCrypto.symbol)
+//                    .font(.title3)
+//                    .foregroundColor(Color.theme.secondaryText)
                 
                 Spacer()
                 
-                Text("≈ $\(walletBalances[selectedCrypto]?.value ?? 0, specifier: "%.2f")")
-                    .font(.subheadline)
-                    .foregroundColor(Color.theme.secondaryText)
+//                Text("≈ $\(walletBalances[selectedCrypto]?.value ?? 0, specifier: "%.2f")")
+//                    .font(.subheadline)
+//                    .foregroundColor(Color.theme.secondaryText)
             }
         }
         .padding()
@@ -230,19 +235,21 @@ struct SendView: View {
                             focusedField = nil
                         }
                     
-                    Text(selectedCrypto.symbol)
-                        .foregroundColor(Color.theme.secondaryText)
+//                    Text(selectedCrypto.symbol)
+//                        .foregroundColor(Color.theme.secondaryText)
                 }
                 
                 HStack {
-                    Text("Available: \(walletBalances[selectedCrypto]?.balance ?? 0, specifier: "%.4f") \(selectedCrypto.symbol)")
+//                    Text("Available: \(walletBalances[selectedCrypto]?.balance ?? 0, specifier: "%.4f") \(selectedCrypto.symbol)")
+                    Text("$\(viewModel.currentUser?.balance ?? 0.0, specifier: "%.2f")")
                         .font(.caption)
                         .foregroundColor(Color.theme.secondaryText)
                     
                     Spacer()
                     
                     Button("MAX") {
-                        amount = String(format: "%.4f", walletBalances[selectedCrypto]?.balance ?? 0)
+//                        amount = String(format: "%.4f", walletBalances[selectedCrypto]?.balance ?? 0)
+                        amount = String(format: "%.2f", viewModel.currentUser?.balance ?? 0)
                         focusedField = nil
                     }
                     .foregroundColor(Color.theme.accent)
@@ -281,7 +288,7 @@ struct SendView: View {
             return
         }
         
-        guard amountDouble <= (walletBalances[selectedCrypto]?.balance ?? 0) else {
+        guard amountDouble <= (viewModel.currentUser?.balance ?? 0) else {
             errorMessage = "Insufficient balance"
             showingError = true
             return

@@ -53,55 +53,72 @@ struct WalletView: View {
     }
     
     @State private var selectedTab: Int = 0
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.theme.background
-                    .ignoresSafeArea()
+        if let user = viewModel.currentUser{
+            NavigationView {
                 
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Total Balance Card
-                        VStack(spacing: 16) {
-                            Text("Total Balance")
-                                .font(.headline)
-                                .foregroundColor(Color.theme.secondaryText)
-                            
-                            VStack(spacing: 8) {
-                                Text("$\(totalBalanceUSD, specifier: "%.2f")")
-                                    .font(.system(size: 36, weight: .bold))
-                                    .foregroundColor(Color.theme.accent)
-                                
-                                Text("\(totalBalanceBTC, specifier: "%.8f") BTC")
-                                    .font(.title3)
+                ZStack {
+                    Color.theme.background
+                        .ignoresSafeArea()
+                    
+                    
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // Total Balance Card
+                            VStack(spacing: 16) {
+                                Text("Total Balance")
+                                    .font(.headline)
                                     .foregroundColor(Color.theme.secondaryText)
+                                
+                                
+                                VStack(spacing: 8) {
+                                    Text("$\(user.balance ?? 0.0, specifier: "%.2f")")
+                                        .font(.system(size: 36, weight: .bold))
+                                        .foregroundColor(Color.theme.accent)
+                                    
+                                    //                                                Text("\(totalBalanceBTC, specifier: "%.8f") BTC")
+                                    //                                                    .font(.title3)
+                                    //                                                    .foregroundColor(Color.theme.secondaryText)
+                                }
+                                
+                                
+                                
+                                HStack(spacing: 8) {
+                                    Image(systemName: totalChange24h >= 0 ? "arrow.up.right" : "arrow.down.right")
+                                    Text("\(abs(totalChange24h), specifier: "%.1f")%")
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(totalChange24h >= 0 ? .green : .red)
                             }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.theme.background)
+                                    .shadow(color: Color.theme.accent.opacity(0.1), radius: 5)
+                            )
                             
-                            HStack(spacing: 8) {
-                                Image(systemName: totalChange24h >= 0 ? "arrow.up.right" : "arrow.down.right")
-                                Text("\(abs(totalChange24h), specifier: "%.1f")%")
-                            }
-                            .font(.subheadline)
-                            .foregroundColor(totalChange24h >= 0 ? .green : .red)
+                            // Deposit Tabs
+                            depositTabs
                         }
                         .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color.theme.background)
-                                .shadow(color: Color.theme.accent.opacity(0.1), radius: 5)
-                        )
-                        
-                        // Deposit Tabs
-                        depositTabs
                     }
-                    .padding()
+                    .navigationTitle("Wallet")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .onAppear {
+                        Task {
+                            await viewModel.reloadUser()
+                        }
+                    }
+
                 }
+                
+                
             }
-            .navigationTitle("Wallet")
-            .navigationBarTitleDisplayMode(.inline)
         }
+        
     }
     
     private var depositTabs: some View {
@@ -155,12 +172,12 @@ struct WalletView: View {
             .background(
                 selectedTab == index ?
                 Color.theme.accent.opacity(0.1) :
-                Color.clear
+                    Color.clear
             )
             .foregroundColor(
                 selectedTab == index ?
                 Color.theme.accent :
-                Color.theme.secondaryText
+                    Color.theme.secondaryText
             )
         }
     }
@@ -244,4 +261,4 @@ struct CryptoWallet: Identifiable {
 
 #Preview {
     WalletView()
-} 
+}

@@ -24,6 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct KryptokingpinApp: App {
 
     @StateObject private var vm = HomeViewModel()
+    @StateObject var viewModel = AuthViewModel()
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
@@ -41,8 +42,9 @@ struct KryptokingpinApp: App {
         
 
         WindowGroup {
-            MainView()
+            AuthGate()
                 .environmentObject(vm)
+                .environmentObject(viewModel)
             
         }
     }

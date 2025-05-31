@@ -10,41 +10,45 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject private var vm: HomeViewModel
+    @EnvironmentObject private var viewModel: AuthViewModel
     
     @State private var showPortfolio: Bool = false
     @State private var showePortfolioView: Bool = false
     
     var body: some View {
-        ZStack {
-            //background area
-            Color.theme.background
-                .ignoresSafeArea()
-                .sheet(isPresented: $showePortfolioView) {
-                    PortfolioView() 
-                        .environmentObject(vm)
+ 
+            ZStack {
+                //background area
+                Color.theme.background
+                    .ignoresSafeArea()
+                    .sheet(isPresented: $showePortfolioView) {
+                        PortfolioView()
+                            .environmentObject(vm)
+                    }
+                
+                //Screen area
+                VStack{
+                    homeHeader
+                    
+                    HomeStatsView(showPortfolio: $showPortfolio)
+                    
+                    SearchBarView(searchText: $vm.searchText)
+                    
+                    columnTitle
+                    
+                    if !showPortfolio{
+                        allCoinsList
+                            .transition(.move(edge: .leading))
+                    }
+                    if showPortfolio{
+                        portfolioCoinsList
+                            .transition(.move(edge: .trailing))
+                    }
+                    Spacer(minLength: 0)
                 }
-            
-            //Screen area
-            VStack{
-                homeHeader
-                
-                HomeStatsView(showPortfolio: $showPortfolio)
-                
-                SearchBarView(searchText: $vm.searchText)
-                
-                columnTitle
-                
-                if !showPortfolio{
-                    allCoinsList
-                        .transition(.move(edge: .leading))
-                }
-                if showPortfolio{
-                    portfolioCoinsList
-                        .transition(.move(edge: .trailing))
-                }
-                Spacer(minLength: 0)
             }
-        }
+        
+
     }
 }
 
@@ -71,11 +75,17 @@ extension HomeView {
                     CircleButtonAnimation(animate: $showPortfolio)
                 }
             Spacer()
-            Text(showPortfolio ? "Portfolio" : "Live Prices")
-                .font(.headline)
-                .fontWeight(.heavy)
-                .foregroundStyle(Color.theme.accent)
-                .animation(nil, value: showPortfolio)
+            VStack{
+                Text(showPortfolio ? "Portfolio" : "Live Prices")
+                    .font(.headline)
+                    .fontWeight(.heavy)
+                    .foregroundStyle(Color.theme.accent)
+                    .animation(nil, value: showPortfolio)
+                Text("Hi \(viewModel.currentUser?.fullname ?? "Fullname") ")
+                    .font(.caption)
+                    .foregroundStyle(Color.theme.accent)
+                    
+            }
             Spacer()
             CircleButtonView(iconName: "chevron.right")
                 .rotationEffect(Angle(

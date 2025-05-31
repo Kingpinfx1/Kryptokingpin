@@ -7,63 +7,73 @@ struct AccountView: View {
     @State private var showingNotifications = false
     @State private var showingLogoutAlert = false
     @State private var showingDeleteAccountAlert = false
+    @EnvironmentObject var viewModel: AuthViewModel
     
     // Placeholder user data - replace with actual user data model later
     private let userName = "Mobile App Developer"
     private let userEmail = "kingpinfx1@gmail.com"
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.theme.background
-                    .ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(spacing: 20) {
-                        // Profile Section
-                        profileSection
-                        
-                        // Settings Section
-                        settingsSection
-                        
-                        // Action Buttons
-                        VStack(spacing: 12) {
-                            logoutButton
-                            deleteAccountButton
+        
+       
+            NavigationView {
+                ZStack {
+                    Color.theme.background
+                        .ignoresSafeArea()
+                    
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            // Profile Section
+                            profileSection
+                            
+                            // Settings Section
+                            settingsSection
+                            
+                            // Action Buttons
+                            VStack(spacing: 12) {
+                                logoutButton
+                                deleteAccountButton
+                            }
+                        }
+                        .padding()
+                    }
+                }
+                .navigationBarHidden(true)
+                .preferredColorScheme(themeManager.colorScheme)
+                .sheet(isPresented: $showingEditProfile) {
+                    EditProfileView()
+                }
+                .sheet(isPresented: $showingChangePassword) {
+                    ChangePasswordView()
+                }
+                .sheet(isPresented: $showingNotifications) {
+                    // Placeholder for Notifications View
+                    Text("Notifications View")
+                }
+                .alert("Logout", isPresented: $showingLogoutAlert) {
+                    Button("Cancel", role: .cancel) { }
+                    Button("Logout", role: .destructive) {
+                        Task{
+                             viewModel.signOut()
                         }
                     }
-                    .padding()
+                } message: {
+                    Text("Are you sure you want to logout?")
+                }
+                .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
+                    Button("Cancel", role: .cancel) { }
+                    Button("Delete", role: .destructive) {
+                        Task{
+                             await viewModel.deleteAccount()
+                        }
+
+                    }
+                } message: {
+                    Text("Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.")
                 }
             }
-            .navigationBarHidden(true)
-            .preferredColorScheme(themeManager.colorScheme)
-            .sheet(isPresented: $showingEditProfile) {
-                EditProfileView()
-            }
-            .sheet(isPresented: $showingChangePassword) {
-                ChangePasswordView()
-            }
-            .sheet(isPresented: $showingNotifications) {
-                // Placeholder for Notifications View
-                Text("Notifications View")
-            }
-            .alert("Logout", isPresented: $showingLogoutAlert) {
-                Button("Cancel", role: .cancel) { }
-                Button("Logout", role: .destructive) {
-                    // Handle logout action
-                }
-            } message: {
-                Text("Are you sure you want to logout?")
-            }
-            .alert("Delete Account", isPresented: $showingDeleteAccountAlert) {
-                Button("Cancel", role: .cancel) { }
-                Button("Delete", role: .destructive) {
-                    // Handle delete account action
-                }
-            } message: {
-                Text("Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.")
-            }
-        }
+        
+        
     }
     
     private var profileSection: some View {
@@ -82,12 +92,12 @@ struct AccountView: View {
             
             // User Info
             VStack(spacing: 8) {
-                Text(userName)
+                Text(viewModel.currentUser?.fullname ?? "Fullname")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(Color.theme.accent)
                 
-                Text(userEmail)
+                Text(viewModel.currentUser?.email ?? "Email")
                     .font(.subheadline)
                     .foregroundColor(Color.theme.secondaryText)
             }
@@ -136,8 +146,17 @@ struct AccountView: View {
                     .padding(.leading)
                 
                 settingsButton(
-                    title: "Notifications",
+                    title: "Privacy Policy",
                     icon: "bell.fill",
+                    action: { showingNotifications = true }
+                )
+                
+                Divider()
+                    .padding(.leading)
+                
+                settingsButton(
+                    title: "About",
+                    icon: "globe",
                     action: { showingNotifications = true }
                 )
                 

@@ -111,7 +111,7 @@ struct TransactionReceiptView: View {
             // Amount
             detailRow(
                 title: "Amount",
-                value: String(format: "%.8f \(transaction.cryptoType.symbol)", transaction.amount)
+                value: String(format: "%.2f", transaction.amount)
             )
             
             Divider()
