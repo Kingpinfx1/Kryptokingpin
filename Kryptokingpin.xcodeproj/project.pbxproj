@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CE4E7E032DBA7FB000AFA787 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CE4E7E022DBA7FB000AFA787 /* Kingfisher */; };
+		CEEC077C2DE7CD44002932E3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = CEEC077B2DE7CD44002932E3 /* FirebaseAnalytics */; };
+		CEEC078C2DE7E353002932E3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CEEC078B2DE7E353002932E3 /* FirebaseAuth */; };
+		CEEC07A42DE7FF18002932E3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = CEEC07A32DE7FF18002932E3 /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CE8EFFE02DB6B71D0076C78B /* Kryptokingpin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kryptokingpin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +30,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEEC077C2DE7CD44002932E3 /* FirebaseAnalytics in Frameworks */,
+				CEEC07A42DE7FF18002932E3 /* FirebaseFirestore in Frameworks */,
+				CEEC078C2DE7E353002932E3 /* FirebaseAuth in Frameworks */,
+				CE4E7E032DBA7FB000AFA787 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +44,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8EFFE22DB6B71D0076C78B /* Kryptokingpin */,
+				CEEC078A2DE7E353002932E3 /* Frameworks */,
 				CE8EFFE12DB6B71D0076C78B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +55,13 @@
 				CE8EFFE02DB6B71D0076C78B /* Kryptokingpin.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CEEC078A2DE7E353002932E3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +84,10 @@
 			);
 			name = Kryptokingpin;
 			packageProductDependencies = (
+				CE4E7E022DBA7FB000AFA787 /* Kingfisher */,
+				CEEC077B2DE7CD44002932E3 /* FirebaseAnalytics */,
+				CEEC078B2DE7E353002932E3 /* FirebaseAuth */,
+				CEEC07A32DE7FF18002932E3 /* FirebaseFirestore */,
 			);
 			productName = Kryptokingpin;
 			productReference = CE8EFFE02DB6B71D0076C78B /* Kryptokingpin.app */;
@@ -94,6 +117,10 @@
 			);
 			mainGroup = CE8EFFD72DB6B71D0076C78B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CE4E7E012DBA7FAF00AFA787 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				CEEC077A2DE7CD44002932E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CE8EFFE12DB6B71D0076C78B /* Products */;
 			projectDirPath = "";
@@ -256,11 +283,11 @@
 				DEVELOPMENT_TEAM = 34Z7ZM6GW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Krypto Kingpin";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -268,6 +295,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kryptokingpin.Kryptokingpin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -284,11 +315,11 @@
 				DEVELOPMENT_TEAM = 34Z7ZM6GW4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Krypto Kingpin";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,6 +327,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kryptokingpin.Kryptokingpin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,6 +359,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CE4E7E012DBA7FAF00AFA787 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+		CEEC077A2DE7CD44002932E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.13.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CE4E7E022DBA7FB000AFA787 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CE4E7E012DBA7FAF00AFA787 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		CEEC077B2DE7CD44002932E3 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEEC077A2DE7CD44002932E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		CEEC078B2DE7E353002932E3 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEEC077A2DE7CD44002932E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		CEEC07A32DE7FF18002932E3 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEEC077A2DE7CD44002932E3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CE8EFFD82DB6B71D0076C78B /* Project object */;
 }
